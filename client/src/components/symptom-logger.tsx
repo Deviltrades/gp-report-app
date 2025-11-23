@@ -31,17 +31,21 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { PlusCircle, Save } from "lucide-react";
+import { PlusCircle, Save, CalendarClock } from "lucide-react";
 import { SymptomLog } from "@/lib/mockData";
+import { format } from "date-fns";
 
 const formSchema = z.object({
   symptom: z.string().min(2, {
     message: "Symptom must be at least 2 characters.",
   }),
+  painStartTime: z.string().optional(),
   severity: z.number().min(1).max(10),
   duration: z.string().min(1, {
     message: "Please specify duration.",
   }),
+  activity: z.string().optional(),
+  changes: z.string().optional(),
   notes: z.string().optional(),
 });
 
@@ -57,8 +61,11 @@ export function SymptomLogger({ onLogSubmit }: SymptomLoggerProps) {
     resolver: zodResolver(formSchema),
     defaultValues: {
       symptom: "",
+      painStartTime: format(new Date(), "yyyy-MM-dd'T'HH:mm"),
       severity: 5,
       duration: "",
+      activity: "",
+      changes: "",
       notes: "",
     },
   });
@@ -66,6 +73,9 @@ export function SymptomLogger({ onLogSubmit }: SymptomLoggerProps) {
   function onSubmit(values: z.infer<typeof formSchema>) {
     onLogSubmit({
       ...values,
+      painStartTime: values.painStartTime || new Date().toISOString(),
+      activity: values.activity || "",
+      changes: values.changes || "",
       notes: values.notes || "",
     });
     
@@ -76,8 +86,11 @@ export function SymptomLogger({ onLogSubmit }: SymptomLoggerProps) {
     
     form.reset({
       symptom: "",
+      painStartTime: format(new Date(), "yyyy-MM-dd'T'HH:mm"),
       severity: 5,
       duration: "",
+      activity: "",
+      changes: "",
       notes: "",
     });
     setIsExpanded(false);
@@ -100,31 +113,51 @@ export function SymptomLogger({ onLogSubmit }: SymptomLoggerProps) {
     <Card className="border-primary/20 shadow-lg">
       <CardHeader className="bg-primary/5 pb-4">
         <CardTitle className="text-primary">Log Symptom</CardTitle>
-        <CardDescription>Record how you're feeling right now.</CardDescription>
+        <CardDescription>Record details about your pain or symptom.</CardDescription>
       </CardHeader>
       <CardContent className="pt-6">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <FormField
-              control={form.control}
-              name="symptom"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Symptom Type</FormLabel>
-                  <FormControl>
-                    <Input placeholder="e.g., Migraine, Back Pain, Nausea" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <FormField
+                control={form.control}
+                name="symptom"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Symptom Type</FormLabel>
+                    <FormControl>
+                      <Input placeholder="e.g., Migraine, Back Pain" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="painStartTime"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>When did the pain start?</FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <Input type="datetime-local" {...field} />
+                        <CalendarClock className="absolute right-3 top-2.5 h-4 w-4 text-muted-foreground pointer-events-none" />
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
 
             <FormField
               control={form.control}
               name="severity"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Severity (1-10)</FormLabel>
+                  <FormLabel>How strong was it? (1-10)</FormLabel>
                   <div className="flex items-center gap-4">
                     <Slider
                       min={1}
@@ -134,7 +167,11 @@ export function SymptomLogger({ onLogSubmit }: SymptomLoggerProps) {
                       onValueChange={(vals) => field.onChange(vals[0])}
                       className="flex-1"
                     />
-                    <span className="w-12 text-center font-bold text-lg border rounded-md py-1 bg-secondary text-secondary-foreground">
+                    <span className={`w-12 text-center font-bold text-lg border rounded-md py-1 ${
+                      field.value >= 8 ? "bg-red-100 text-red-700 border-red-200" :
+                      field.value >= 5 ? "bg-orange-100 text-orange-700 border-orange-200" :
+                      "bg-secondary text-secondary-foreground"
+                    }`}>
                       {field.value}
                     </span>
                   </div>
@@ -151,11 +188,11 @@ export function SymptomLogger({ onLogSubmit }: SymptomLoggerProps) {
               name="duration"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Duration</FormLabel>
+                  <FormLabel>How long did it last?</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="How long did it last?" />
+                        <SelectValue placeholder="Select duration..." />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -173,14 +210,42 @@ export function SymptomLogger({ onLogSubmit }: SymptomLoggerProps) {
 
             <FormField
               control={form.control}
+              name="activity"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>What were you doing?</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g., Working at computer, Sleeping, Exercising" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="changes"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>What changed?</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g., Took medication, Lay down, Ate food" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
               name="notes"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Notes (Optional)</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Any triggers, medications taken, or specific details?"
-                      className="resize-none"
+                      placeholder="Any other details?"
+                      className="resize-none min-h-[80px]"
                       {...field}
                     />
                   </FormControl>
