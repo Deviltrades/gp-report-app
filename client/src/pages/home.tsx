@@ -32,8 +32,7 @@ export default function Home() {
                 <span className="text-foreground">Empower your doctor.</span>
               </h1>
               <p className="text-lg text-muted-foreground max-w-md">
-                A simple, dignified way to log chronic pain and symptoms. 
-                Create clear reports for your next appointment.
+                Log symptoms instantly and hand your GP a clear, clinical-style summary that saves time and improves diagnosis.
               </p>
               <div className="pt-2">
                 <Link href="/reports">
