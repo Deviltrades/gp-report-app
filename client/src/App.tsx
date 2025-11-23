@@ -8,6 +8,7 @@ import Home from "@/pages/home";
 import Reports from "@/pages/reports";
 import NotFound from "@/pages/not-found";
 
+// App Router Configuration
 function Router() {
   return (
     <Switch>
