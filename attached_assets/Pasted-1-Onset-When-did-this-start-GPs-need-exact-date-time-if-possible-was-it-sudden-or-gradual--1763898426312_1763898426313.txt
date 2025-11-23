@@ -1,0 +1,201 @@
+1. Onset
+
+“When did this start?”
+GPs need:
+
+exact date
+
+time if possible
+
+was it sudden or gradual?
+
+Most people say “I think last week?”
+Your app removes that confusion.
+
+⭐ 2. Frequency
+
+“How often does this happen?”
+GPs want:
+
+once per day?
+
+random?
+
+only at certain times?
+
+only after certain activities?
+
+Your app tracks every entry so they can see patterns.
+
+⭐ 3. Duration
+
+“How long does each episode last?”
+They need:
+
+minutes?
+
+hours?
+
+all day?
+
+This helps them figure out what type of condition it might be.
+
+⭐ 4. Severity
+
+“How strong is the pain/symptom?”
+They ALWAYS ask for:
+
+mild
+
+moderate
+
+severe
+Or a numbered scale (1–10).
+Your slider solves this instantly.
+
+⭐ 5. Triggers
+
+“Does anything trigger it?”
+Example triggers:
+
+standing
+
+food
+
+caffeine
+
+exercise
+
+stress
+
+twisting
+
+lying down
+
+heat/cold
+
+GPs use triggers to diagnose root cause.
+
+⭐ 6. Relievers
+
+“Does anything make it better?”
+Important for diagnosis.
+
+Things like:
+
+rest
+
+water
+
+heat
+
+lying down
+
+stretching
+
+medication
+
+nothing helps
+
+This is powerful info.
+
+⭐ 7. Associated symptoms
+
+“What else happens at the same time?”
+
+Example:
+
+dizziness + nausea
+
+numbness + fatigue
+
+back pain + dark urine
+
+chest pain + anxiety
+
+headaches + tingling
+
+groin ache + flank ache
+
+Patterns are EVERYTHING for a GP.
+
+⭐ 8. Impact on daily life
+
+GPs always ask:
+
+“Are you able to work?”
+
+“Are you sleeping okay?”
+
+“Is it stopping you from doing daily tasks?”
+
+You can add a simple toggle:
+
+Impact Today: none / mild / moderate / severe
+
+⭐ 9. Medication taken
+
+They need to know:
+
+Did you take anything?
+
+Did it help?
+
+How much?
+
+You can keep this optional.
+
+⭐ 10. Timeline clarity
+
+GPs LOVE timelines because they can see:
+
+whether symptoms are worsening
+
+whether the frequency is increasing
+
+whether severity is escalating
+
+whether patterns exist
+
+This is the #1 thing your app does better than 99% of symptom trackers.
+
+⭐ 11. Location
+
+Where EXACTLY is the symptom?
+
+Especially important for:
+
+stomach pain
+
+chest pain
+
+kidney/flank pain
+
+groin/testicle pain
+
+headaches
+
+You can add a small text field:
+“Location (e.g., left flank, lower back, upper stomach, right temple)”
+
+⭐ 12. Red flags
+
+GPs look for “red flags” such as:
+
+blood in urine
+
+blood in stool
+
+chest pressure
+
+fainting
+
+fever
+
+sudden severe pain
+
+unexplained weight loss
+
+You can add a toggle:
+“Did you have any alert symptoms with this episode?”
+(and show a few examples)
